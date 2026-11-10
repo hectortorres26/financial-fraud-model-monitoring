@@ -9,6 +9,8 @@
 
 ¿Cómo detectar que un modelo de fraude pierde rendimiento después de desplegarse? Este proyecto compara la exactitud estimada sin etiquetas mediante **CBPE** con la exactitud observada, identifica cambios en los datos y evalúa qué señales se relacionan con el deterioro.
 
+En este trabajo analicé el comportamiento de un detector ya desplegado, revisé una primera solución y documenté qué conclusiones permiten sostener los datos. Organicé el desarrollo en un notebook reproducible para que se pueda seguir el recorrido completo: desde la auditoría inicial hasta el diagnóstico final.
+
 **Resultado principal:** abril, mayo y junio de 2019 presentan alertas conjuntas. La exactitud agregada cae de **94,37 % a 91,48 %** entre los periodos de producción estable y de alerta. La deriva de `time_since_login_min` presenta la mayor asociación con el cambio de rendimiento.
 
 > Desarrollado a partir del proyecto educativo [Monitoring a Financial Fraud Detection Model](https://app.datacamp.com/learn/projects/2104) de DataCamp. El escenario, el enunciado y los datos proceden de DataCamp; este repositorio reúne mi solución, su validación y una ampliación del análisis. Es un trabajo de portafolio independiente, sin afiliación ni respaldo institucional de DataCamp.
@@ -63,6 +65,12 @@ La media alertada supera el límite superior aprendido de **3 021,4111 GBP**. So
 
 La ampliación aporta auditoría, comparación entre pruebas, evaluación por fases, sensibilidad estadística y documentación de límites. Las tres respuestas solicitadas se mantienen después de estas mejoras.
 
+### Decisiones del análisis
+
+Conservé las predicciones suministradas para evaluar el detector original. Separé los periodos de referencia y producción para evitar que el ranking principal mezclara dos etapas con objetivos diferentes. También contrasté las salidas de NannyML con cálculos independientes y revisé la estabilidad de las correlaciones antes de interpretar sus resultados.
+
+Estas decisiones permiten distinguir tres cosas: detectar una anomalía, encontrar una señal asociada y demostrar una causa. El proyecto resuelve las dos primeras y propone qué investigar para avanzar en la tercera.
+
 ## Reproducir el análisis
 
 Entorno validado: **Python 3.11** y versiones fijadas en [requirements.txt](requirements.txt). Los resultados del notebook se pueden leer en GitHub sin instalar nada. Para recalcularlos necesitas obtener los CSV originales siguiendo [estas instrucciones](data/README.md).
@@ -107,7 +115,7 @@ Solo hay ocho meses de producción. La correlación de Spearman es menor y no si
 
 ## Conclusiones y próximos pasos
 
-El deterioro comienza en abril de 2019 y puede anticiparse con probabilidades del modelo antes de disponer de las etiquetas. La señal del tiempo desde login ayuda a priorizar una investigación de datos y comportamiento. El aumento del importe medio en junio aporta otra alerta, pero no explica por sí solo la pérdida de rendimiento.
+El deterioro comienza en abril de 2019. En esta evaluación retrospectiva, CBPE identifica los mismos meses de alerta usando las probabilidades del modelo sin consultar las etiquetas de producción. Esto ilustra cómo monitorizar el rendimiento cuando las etiquetas llegan con retraso. La señal del tiempo desde login ayuda a priorizar una investigación de datos y comportamiento. El aumento del importe medio en junio aporta otra alerta, pero no explica por sí solo la pérdida de rendimiento.
 
 Los siguientes pasos serían revisar la medición del login, analizar errores por segmento, monitorizar recall y calibración y validar posibles cambios del detector en periodos futuros con costes operativos definidos.
 
