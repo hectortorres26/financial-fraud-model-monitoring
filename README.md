@@ -7,13 +7,13 @@
 ![Jupyter](https://img.shields.io/badge/Jupyter-notebook_ejecutado-F37626?logo=jupyter&logoColor=white)
 ![DataCamp](https://img.shields.io/badge/DataCamp-proyecto_aprobado-03EF62)
 
-¿Cómo detectar que un modelo de fraude pierde rendimiento después de desplegarse? Este proyecto compara la exactitud estimada sin etiquetas mediante **CBPE** con la exactitud observada, identifica cambios en los datos y evalúa qué señales se relacionan con el deterioro.
+Analicé **90 174 transacciones** para identificar cuándo un detector de fraude pierde rendimiento y qué cambios en los datos conviene investigar. Comparé la exactitud estimada mediante **CBPE** con la observada y revisé la relación entre la deriva de las variables y el cambio de rendimiento.
 
-En este trabajo analicé el comportamiento de un detector ya desplegado, revisé una primera solución y documenté qué conclusiones permiten sostener los datos. Organicé el desarrollo en un notebook reproducible para que se pueda seguir el recorrido completo: desde la auditoría inicial hasta el diagnóstico final.
+El notebook reúne los cálculos, las comprobaciones y los gráficos. En el reporte explico las decisiones del análisis, los resultados y las limitaciones que tuve en cuenta al interpretarlos.
 
 **Resultado principal:** abril, mayo y junio de 2019 presentan alertas conjuntas. La exactitud agregada cae de **94,37 % a 91,48 %** entre los periodos de producción estable y de alerta. La deriva de `time_since_login_min` presenta la mayor asociación con el cambio de rendimiento.
 
-> Desarrollado a partir del proyecto educativo [Monitoring a Financial Fraud Detection Model](https://app.datacamp.com/learn/projects/2104) de DataCamp. El escenario, el enunciado y los datos proceden de DataCamp; este repositorio reúne mi solución, su validación y una ampliación del análisis. Es un trabajo de portafolio independiente, sin afiliación ni respaldo institucional de DataCamp.
+> Partí del proyecto educativo [Monitoring a Financial Fraud Detection Model](https://app.datacamp.com/learn/projects/2104) de DataCamp. El escenario y los datos proceden de ese ejercicio; aquí presento mi solución y un análisis ampliado de sus resultados.
 
 ## Explorar el proyecto
 
@@ -63,17 +63,17 @@ La media alertada supera el límite superior aprendido de **3 021,4111 GBP**. So
 5. **Mejora:** ranking limitado a producción, nulos categóricos explícitos, Spearman, exclusión de un mes y ajuste por comparaciones múltiples.
 6. **Entrega:** resultados reproducibles, notebook ejecutado, dos informes y aprobación de DataCamp.
 
-La ampliación aporta auditoría, comparación entre pruebas, evaluación por fases, sensibilidad estadística y documentación de límites. Las tres respuestas solicitadas se mantienen después de estas mejoras.
+Después de revisar la primera prueba, añadí la comparación por fases y las comprobaciones de sensibilidad. Las tres respuestas solicitadas se mantuvieron después de estos ajustes.
 
 ### Decisiones del análisis
 
 Conservé las predicciones suministradas para evaluar el detector original. Separé los periodos de referencia y producción para evitar que el ranking principal mezclara dos etapas con objetivos diferentes. También contrasté las salidas de NannyML con cálculos independientes y revisé la estabilidad de las correlaciones antes de interpretar sus resultados.
 
-Estas decisiones permiten distinguir tres cosas: detectar una anomalía, encontrar una señal asociada y demostrar una causa. El proyecto resuelve las dos primeras y propone qué investigar para avanzar en la tercera.
+Usé el ranking para priorizar la investigación de los cambios en los datos. No lo interpreté como una prueba de causalidad ni como una medida de importancia del modelo.
 
 ## Reproducir el análisis
 
-Entorno validado: **Python 3.11** y versiones fijadas en [requirements.txt](requirements.txt). Los resultados del notebook se pueden leer en GitHub sin instalar nada. Para recalcularlos necesitas obtener los CSV originales siguiendo [estas instrucciones](data/README.md).
+Entorno validado: **Python 3.11** y versiones fijadas en [requirements.txt](requirements.txt). El notebook incluye las salidas de la ejecución. Para recalcular los resultados hacen falta los CSV originales, cuya obtención explico en [Datos y diccionario](data/README.md).
 
 ```bash
 git clone https://github.com/hectortorres26/financial-fraud-model-monitoring.git
@@ -81,7 +81,7 @@ cd financial-fraud-model-monitoring
 python -m venv .venv
 ```
 
-Activa el entorno con `.venv\Scripts\Activate.ps1` en PowerShell o `source .venv/bin/activate` en macOS/Linux. Después:
+Activación del entorno: `.venv\Scripts\Activate.ps1` en PowerShell o `source .venv/bin/activate` en macOS/Linux. Instalación y ejecución:
 
 ```bash
 python -m pip install -r requirements.txt
@@ -89,7 +89,7 @@ python src/analisis.py --stage all
 python scripts/verificar_resultados.py
 ```
 
-Para trabajar de forma interactiva, abre `Monitoreo_fraude.ipynb` en VS Code con la extensión Jupyter y selecciona el intérprete de `.venv`. También puedes instalar JupyterLab (`python -m pip install jupyterlab`) y abrirlo con `jupyter lab`. Ejecuta las celdas en orden desde la raíz del repositorio. `src/solucion_datacamp.py` contiene la solución compacta para el entorno del ejercicio; ejecútala desde la raíz si usas los datos locales.
+El notebook se puede abrir en VS Code con la extensión Jupyter y el intérprete de `.venv`, o en JupyterLab (`python -m pip install jupyterlab`, seguido de `jupyter lab`). La ejecución debe comenzar en la raíz del repositorio y seguir el orden de las celdas. `src/solucion_datacamp.py` contiene la solución compacta del ejercicio y también se ejecuta desde la raíz con los datos locales.
 
 ## Estructura
 
@@ -117,7 +117,7 @@ Solo hay ocho meses de producción. La correlación de Spearman es menor y no si
 
 El deterioro comienza en abril de 2019. En esta evaluación retrospectiva, CBPE identifica los mismos meses de alerta usando las probabilidades del modelo sin consultar las etiquetas de producción. Esto ilustra cómo monitorizar el rendimiento cuando las etiquetas llegan con retraso. La señal del tiempo desde login ayuda a priorizar una investigación de datos y comportamiento. El aumento del importe medio en junio aporta otra alerta, pero no explica por sí solo la pérdida de rendimiento.
 
-Los siguientes pasos serían revisar la medición del login, analizar errores por segmento, monitorizar recall y calibración y validar posibles cambios del detector en periodos futuros con costes operativos definidos.
+Como siguiente paso, revisaría la medición del login y los errores por segmento. También haría seguimiento del recall y la calibración, y evaluaría cualquier cambio del detector con datos de periodos posteriores y costes operativos definidos.
 
 ## Autoría y procedencia
 
