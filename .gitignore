@@ -1,0 +1,16 @@
+# Datos originales: obtener desde DataCamp
+data/*
+!data/README.md
+.venv/
+venv/
+.jupyter/
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+output/v1/
+output/**/warnings.json

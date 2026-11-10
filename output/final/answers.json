@@ -1,0 +1,26 @@
+{
+  "months_with_performance_alerts": [
+    "april_2019",
+    "may_2019",
+    "june_2019"
+  ],
+  "highest_correlation_feature": "time_since_login_min",
+  "alert_avg_transaction_amount": 3069.8184,
+  "amount_alerts": [
+    {
+      "month": "2019-06",
+      "mean": 3069.8183551967713,
+      "lower_threshold": 2908.4340259731684,
+      "upper_threshold": 3021.411123303728
+    }
+  ],
+  "needs_calibration": true,
+  "estimation_mae": 0.003223742336341595,
+  "ranking_scope": "analysis",
+  "checks": [
+    "exactitud coincide con sklearn (1e-12)",
+    "importe medio coincide con pandas (1e-12)",
+    "estimacion sin etiquetas de produccion",
+    "meses alineados"
+  ]
+}

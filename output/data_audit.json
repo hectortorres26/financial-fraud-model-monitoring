@@ -1,0 +1,46 @@
+{
+  "reference": {
+    "rows": 50207,
+    "columns": 9,
+    "first": "2018-01-01 00:00:00",
+    "last": "2018-10-31 23:56:09.312000",
+    "missing": {
+      "timestamp": 0,
+      "time_since_login_min": 0,
+      "transaction_amount": 0,
+      "transaction_type": 3052,
+      "is_first_transaction": 0,
+      "user_tenure_months": 0,
+      "is_fraud": 0,
+      "predicted_fraud_proba": 0,
+      "predicted_fraud": 0
+    },
+    "duplicate_rows": 0,
+    "duplicate_timestamps": 0,
+    "sorted": true,
+    "fraud_rate": 0.49975103073276633,
+    "sha256": "7b6cce451bf2759a7faac5a15d481ff560c58086b1cd987231bbe631c45d8100"
+  },
+  "analysis": {
+    "rows": 39967,
+    "columns": 9,
+    "first": "2018-11-01 00:04:52.464000",
+    "last": "2019-06-30 23:56:25.296000",
+    "missing": {
+      "timestamp": 0,
+      "time_since_login_min": 0,
+      "transaction_amount": 0,
+      "transaction_type": 2453,
+      "is_first_transaction": 0,
+      "user_tenure_months": 0,
+      "predicted_fraud_proba": 0,
+      "predicted_fraud": 0,
+      "is_fraud": 0
+    },
+    "duplicate_rows": 0,
+    "duplicate_timestamps": 0,
+    "sorted": true,
+    "fraud_rate": 0.499386994270273,
+    "sha256": "0c19b7b7f249fc766b7fc4a454f2478c27d89cc5854aa817fc44eaf9c38369c4"
+  }
+}

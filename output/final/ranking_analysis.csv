@@ -1,0 +1,5 @@
+column_name,pearsonr_correlation,pearsonr_pvalue,has_drifted,rank
+time_since_login_min,0.9703700467421147,6.359624164808038e-05,True,1
+transaction_amount,0.5457664006976424,0.16173324724723817,True,2
+is_first_transaction,-0.21490409946045347,0.6092892742712934,True,3
+user_tenure_months,-0.40238212039261495,0.32301561334959206,True,5

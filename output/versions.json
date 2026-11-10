@@ -1,0 +1,11 @@
+{
+  "python": "3.11.9",
+  "nannyml": "0.13.1",
+  "pandas": "2.2.3",
+  "numpy": "1.26.4",
+  "scipy": "1.14.1",
+  "scikit-learn": "1.5.2",
+  "matplotlib": "3.11.2",
+  "statsmodels": "0.14.4",
+  "category-encoders": "2.6.4"
+}

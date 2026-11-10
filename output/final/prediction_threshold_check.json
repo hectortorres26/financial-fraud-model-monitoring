@@ -1,0 +1,10 @@
+{
+  "disagreements": {
+    "0.5": 1889,
+    "0.6": 730,
+    "0.65": 0,
+    "0.66": 148,
+    "0.7": 854
+  },
+  "note": "0.65 reproduce las etiquetas suministradas. No se optimizo ni cambio el modelo."
+}
